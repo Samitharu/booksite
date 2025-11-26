@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Models\BookSale;
 
 class CartController extends Controller
 {
@@ -84,39 +85,64 @@ class CartController extends Controller
 
 
     //puchase process
-    public function processCheckout(Request $request)
+   public function processCheckout(Request $request)
 {
-    $cart = session()->get('cart', []);
+    $cart = session('cart', []);
 
     if (empty($cart)) {
-        return redirect()->route('cart.index')->with('error', 'Cart is empty.');
+        return back()->with('error', 'Your cart is empty.');
     }
 
-    foreach ($cart as $id => $item) {
+    $invoiceId = time(); // unique invoice number
 
-        $book = Book::find($id);
+    foreach ($cart as $bookId => $item) {
 
-        // Reduce stock
-        if ($book->stock < $item['quantity']) {
-            return redirect()->back()->with('error', 'Not enough stock for ' . $book->title);
-        }
-
-        $book->stock -= $item['quantity'];
-        $book->save();
-
-        // Save sale record
-        \App\Models\BookSale::create([
-            'book_id' => $book->id,
-            'quantity' => $item['quantity'],
-            'price' => $item['price'],
-            'total' => $item['price'] * $item['quantity'],
+        BookSale::create([
+            'invoice_id' => $invoiceId,
+            'book_id'    => $bookId,
+            'price'      => $item['price'],
+            'quantity'   => $item['quantity'],
+            'total'      => $item['price'] * $item['quantity'],
         ]);
+
+        // Deduct stock
+        $book = Book::find($bookId);
+        if ($book) {
+            $book->stock -= $item['quantity'];
+            $book->save();
+        }
     }
 
     // Clear cart
     session()->forget('cart');
 
-    return redirect('/')->with('success', 'Order completed successfully!');
+    return redirect()->route('invoice.download', $invoiceId);
 }
+
+
+//download invoice
+public function downloadInvoice($invoiceId)
+{
+    $sales = BookSale::where('invoice_id', $invoiceId)
+        ->with('book')
+        ->get();
+
+    if ($sales->isEmpty()) {
+        abort(404, 'Invoice not found');
+    }
+
+    $total = $sales->sum('total');
+
+    $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('invoice.pdf', [
+        'invoiceId' => $invoiceId,
+        'sales'     => $sales,
+        'total'     => $total,
+        'date'      => now(),
+    ]);
+
+    return $pdf->download("Invoice_{$invoiceId}.pdf");
+}
+
+
     
 }

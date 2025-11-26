@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -7,7 +8,8 @@ use App\Http\Controllers\Admin\BookController as AdminBookController;
 use App\Http\Controllers\Admin\AuthorController as AdminAuthorController;
 use App\Http\Controllers\Admin\PublisherController as AdminPublisherController;
 use App\Http\Controllers\CartController;
-
+use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\StockReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +26,7 @@ Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show')
 | Authentication Routes (Breeze)
 |--------------------------------------------------------------------------
 */
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 
 /*
@@ -66,16 +68,30 @@ Route::middleware(['auth', 'role:Admin'])
     ->name('admin.')
     ->group(function () {
 
-    // ADMIN DASHBOARD ROUTE
-    Route::get('/', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+        // ADMIN DASHBOARD ROUTE
+        Route::get('/', function () {
+            return view('admin.dashboard');
+        })->name('dashboard');
 
-    // CRUD ROUTES
-    Route::resource('authors', AdminAuthorController::class);
-    Route::resource('publishers', AdminPublisherController::class);
-    Route::resource('books', AdminBookController::class);
-});
+        // CRUD ROUTES
+        Route::resource('authors', AdminAuthorController::class);
+        Route::resource('publishers', AdminPublisherController::class);
+        Route::resource('books', AdminBookController::class);
+
+        //ADMIN SALES REPORT ROUTES
+        Route::get('sales-report', [ReportController::class, 'salesReport'])
+            ->name('sales.report');
+
+        Route::get('sales-report/download', [ReportController::class, 'downloadSalesReport'])
+            ->name('sales.report.download');
+
+        //ADMIN STOCK REPORT ROUTES
+        Route::get('stock-report', [StockReportController::class, 'index'])
+            ->name('stock.report');
+
+        Route::get('stock-report/download', [StockReportController::class, 'download'])
+            ->name('stock.report.download');    
+    });
 
 
 
@@ -92,11 +108,16 @@ Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkou
 Route::post('/checkout/process', [CartController::class, 'processCheckout'])
     ->name('cart.processCheckout');
 
-    //Search book - suggestion 
-    Route::get('/search-books', function () {
+//Search book - suggestion 
+Route::get('/search-books', function () {
     $q = request('q');
 
     return \App\Models\Book::where('title', 'like', "%{$q}%")
         ->limit(5)
         ->get(['id', 'title']);
 })->name('books.search');
+
+Route::get('/invoice/{invoiceId}', [CartController::class, 'downloadInvoice'])
+    ->name('invoice.download');
+
+

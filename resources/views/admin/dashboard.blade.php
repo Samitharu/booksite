@@ -68,7 +68,7 @@
         </a>
 
         {{-- Sales Reports --}}
-        <a href="#" class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition transform flex flex-col gap-3">
+        <a href="{{ route('admin.sales.report') }}" class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition transform flex flex-col gap-3">
             <div class="flex items-center gap-3">
                 <div class="h-11 w-11 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center text-xl">
                     📈
@@ -81,7 +81,7 @@
         </a>
 
         {{-- Stock Report --}}
-        <a href="#"
+        <a href="{{ route('admin.stock.report') }}"
            class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition transform flex flex-col gap-3">
             <div class="flex items-center gap-3">
                 <div class="h-11 w-11 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-xl">

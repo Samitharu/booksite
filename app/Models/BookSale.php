@@ -12,6 +12,13 @@ class BookSale extends Model
         'price',
         'total',
         'user_id',
-        'order_id'
+        'order_id',
+        'invoice_id',
     ];
+
+    public function book()
+{
+    return $this->belongsTo(Book::class, 'book_id');
+}
+
 }

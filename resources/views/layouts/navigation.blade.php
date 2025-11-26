@@ -5,7 +5,7 @@
 
             <!-- LOGO -->
             <a href="{{ route('books.index') }}" class="flex items-center gap-2">
-                <span class="text-2xl font-bold text-indigo-600">📚 Book Store</span>
+                <span class="text-2xl font-bold text-indigo-600">📚 BookStore</span>
             </a>
 
             <!-- DESKTOP NAV -->

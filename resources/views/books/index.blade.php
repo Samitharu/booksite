@@ -23,7 +23,7 @@
             <input type="text"
                    name="q"
                    id="searchInput"
-                   placeholder="Search by title, author…"
+                   placeholder="Search by title"
                    class="w-full px-5 py-3 rounded-full text-gray-800 shadow-lg">
 
             <!-- Suggestions Box -->

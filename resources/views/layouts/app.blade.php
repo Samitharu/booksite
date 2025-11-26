@@ -58,7 +58,6 @@
                 <h3 class="text-white font-semibold mb-3">Quick Links</h3>
                 <ul class="space-y-2 text-sm">
                     <li><a href="/" class="hover:text-white">Home</a></li>
-                    <li><a href="#" class="hover:text-white">Categories</a></li>
                     <li><a href="/cart" class="hover:text-white">Cart</a></li>
                     <li><a href="/login" class="hover:text-white">Login</a></li>
                 </ul>

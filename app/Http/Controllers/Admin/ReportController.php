@@ -48,9 +48,6 @@ class ReportController extends Controller
         ]);
     }
 
-    /**
-     * Download PDF report
-     */
     public function downloadSalesReport(Request $request)
     {
         $query = BookSale::with('book');

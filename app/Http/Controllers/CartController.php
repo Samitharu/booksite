@@ -24,7 +24,7 @@ class CartController extends Controller
         $quantity = 1;
     }
 
-    // Check against available stock
+    // Check available stock
     if ($quantity > $book->stock) {
         return back()->with('error', "You cannot add more than {$book->stock} items.");
     }

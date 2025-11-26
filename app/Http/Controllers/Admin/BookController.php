@@ -92,12 +92,10 @@ class BookController extends Controller
         'delete_images'    => 'array',
     ]);
 
-    /* --------------------------------------------
-        1) Update cover image (if uploaded)
-    -------------------------------------------- */
+   //cover image
     if ($request->hasFile('cover_image')) {
 
-        // Optionally delete old cover
+        
         if ($book->cover_image && Storage::disk('public')->exists($book->cover_image)) {
             Storage::disk('public')->delete($book->cover_image);
         }
@@ -105,9 +103,7 @@ class BookController extends Controller
         $data['cover_image'] = $request->file('cover_image')->store('covers', 'public');
     }
 
-    /* --------------------------------------------
-        2) Handle Multiple Images
-    -------------------------------------------- */
+   //extra images
     $existingImages = $book->images ?? [];
 
     // Delete selected images
@@ -130,9 +126,7 @@ class BookController extends Controller
 
     $data['images'] = $existingImages;
 
-    /* --------------------------------------------
-        3) Save Book
-    -------------------------------------------- */
+   //save book
     $book->update($data);
 
     return redirect()->route('admin.books.index')

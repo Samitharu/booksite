@@ -78,7 +78,7 @@
         <hr class="border-gray-700 my-6">
 
         <p class="text-center text-gray-500 text-sm">
-            © {{ date('Y') }} BookSite. All rights reserved.
+            © {{ date('Y') }} BookStore. All rights reserved.
         </p>
 
     </div>

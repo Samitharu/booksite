@@ -47,7 +47,7 @@
 
             <!-- Brand -->
             <div>
-                <h2 class="text-xl font-bold text-white">BookSite</h2>
+                <h2 class="text-xl font-bold text-white">BookStore</h2>
                 <p class="text-gray-400 mt-2 text-sm">
                     Your favorite place to buy books online.
                 </p>
@@ -67,7 +67,7 @@
             <div>
                 <h3 class="text-white font-semibold mb-3">Contact</h3>
                 <p class="text-gray-400 text-sm">
-                    Email: support@booksite.com<br>
+                    Email: support@bookstore.com<br>
                     Phone: +94 77 123 4567
                 </p>
             </div>
